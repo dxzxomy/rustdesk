@@ -117,7 +117,6 @@ impl Handler {
                                     format: ClipboardFormat::from_i32(c.format)
                                         .unwrap_or(ClipboardFormat::Text)
                                         .into(),
-                                    special_name: c.special_name,
                                     ..Default::default()
                                 })
                                 .collect(),

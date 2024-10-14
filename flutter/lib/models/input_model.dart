@@ -469,12 +469,8 @@ class InputModel {
 
   KeyEventResult handleRawKeyEvent(RawKeyEvent e) {
     if (isViewOnly) return KeyEventResult.handled;
-    if (!isInputSourceFlutter) {
-      if (isDesktop) {
-        return KeyEventResult.handled;
-      } else if (isWeb) {
-        return KeyEventResult.ignored;
-      }
+    if ((isDesktop || isWebDesktop) && !isInputSourceFlutter) {
+      return KeyEventResult.handled;
     }
 
     final key = e.logicalKey;
@@ -523,12 +519,8 @@ class InputModel {
 
   KeyEventResult handleKeyEvent(KeyEvent e) {
     if (isViewOnly) return KeyEventResult.handled;
-    if (!isInputSourceFlutter) {
-      if (isDesktop) {
-        return KeyEventResult.handled;
-      } else if (isWeb) {
-        return KeyEventResult.ignored;
-      }
+    if ((isDesktop || isWebDesktop) && !isInputSourceFlutter) {
+      return KeyEventResult.handled;
     }
     if (isWindows || isLinux) {
       // Ignore meta keys. Because flutter window will loose focus if meta key is pressed.

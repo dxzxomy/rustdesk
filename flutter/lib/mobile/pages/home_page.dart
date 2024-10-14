@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import '../../common.dart';
 import '../../common/widgets/chat_page.dart';
 import '../../models/platform_model.dart';
-import '../../models/state_model.dart';
 import 'connection_page.dart';
 
 abstract class PageShape extends Widget {
@@ -160,7 +159,6 @@ class WebHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    stateGlobal.isInMainPage = true;
     return Scaffold(
       // backgroundColor: MyTheme.grayBg,
       appBar: AppBar(

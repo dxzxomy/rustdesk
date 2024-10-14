@@ -12,6 +12,8 @@ fn main() {
     }
     common::test_rendezvous_server();
     common::test_nat_type();
+    #[cfg(target_os = "android")]
+    crate::common::check_software_update();
     common::global_clean();
 }
 

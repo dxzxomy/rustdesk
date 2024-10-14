@@ -152,10 +152,7 @@ class RustdeskImpl {
       required String code,
       required bool trustThisDevice,
       dynamic hint}) {
-    return Future(() => js.context.callMethod('setByName', [
-          'send_2fa',
-          jsonEncode({'code': code, 'trust_this_device': trustThisDevice})
-        ]));
+    return Future(() => js.context.callMethod('setByName', ['send_2fa', code]));
   }
 
   Future<void> sessionClose({required UuidValue sessionId, dynamic hint}) {
@@ -355,11 +352,7 @@ class RustdeskImpl {
 
   bool sessionIsKeyboardModeSupported(
       {required UuidValue sessionId, required String mode, dynamic hint}) {
-    if (mainGetInputSource(hint: hint) == 'Input source 1') {
-      return [kKeyMapMode, kKeyTranslateMode].contains(mode);
-    } else {
-      return [kKeyLegacyMode, kKeyMapMode].contains(mode);
-    }
+    return [kKeyLegacyMode, kKeyMapMode].contains(mode);
   }
 
   bool sessionIsMultiUiSession({required UuidValue sessionId, dynamic hint}) {
@@ -436,7 +429,7 @@ class RustdeskImpl {
 
   void sessionEnterOrLeave(
       {required UuidValue sessionId, required bool enter, dynamic hint}) {
-    js.context.callMethod('setByName', ['enter_or_leave', enter]);
+    throw UnimplementedError();
   }
 
   Future<void> sessionInputKey(
@@ -471,8 +464,7 @@ class RustdeskImpl {
 
   Future<void> sessionSendChat(
       {required UuidValue sessionId, required String text, dynamic hint}) {
-    return Future(
-        () => js.context.callMethod('setByName', ['send_chat', text]));
+    throw UnimplementedError();
   }
 
   Future<void> sessionPeerOption(
@@ -480,7 +472,7 @@ class RustdeskImpl {
       required String name,
       required String value,
       dynamic hint}) {
-    return Future(() => js.context.callMethod('setByName', [
+    return Future(() => js.context.callMethod('SetByName', [
           'option:session',
           jsonEncode({'name': name, 'value': value})
         ]));
@@ -612,7 +604,7 @@ class RustdeskImpl {
 
   Future<void> sessionElevateDirect(
       {required UuidValue sessionId, dynamic hint}) {
-    return Future(() => js.context.callMethod('setByName', ['elevate_direct']));
+    throw UnimplementedError();
   }
 
   Future<void> sessionElevateWithLogon(
@@ -622,7 +614,7 @@ class RustdeskImpl {
       dynamic hint}) {
     return Future(() => js.context.callMethod('setByName', [
           'elevate_with_logon',
-          jsonEncode({'username': username, 'password': password})
+          jsonEncode({username, password})
         ]));
   }
 
@@ -854,21 +846,16 @@ class RustdeskImpl {
   }
 
   String mainGetInputSource({dynamic hint}) {
-    final inputSource =
-        js.context.callMethod('getByName', ['option:local', 'input-source']);
-    // // js grab mode
-    // export const CONFIG_INPUT_SOURCE_1 = "Input source 1";
+    // // rdev grab mode
+    // const CONFIG_INPUT_SOURCE_1 = "Input source 1";
     // // flutter grab mode
-    // export const CONFIG_INPUT_SOURCE_2 = "Input source 2";
-    return inputSource != '' ? inputSource : 'Input source 1';
+    // const CONFIG_INPUT_SOURCE_2 = "Input source 2";
+    return 'Input source 2';
   }
 
   Future<void> mainSetInputSource(
       {required UuidValue sessionId, required String value, dynamic hint}) {
-    return Future(() => js.context.callMethod('setByName', [
-          'option:local',
-          jsonEncode({'name': 'input-source', 'value': value})
-        ]));
+    return Future.value();
   }
 
   Future<String> mainGetMyId({dynamic hint}) {
@@ -940,7 +927,7 @@ class RustdeskImpl {
   }
 
   Future<void> mainForgetPassword({required String id, dynamic hint}) {
-    return mainSetPeerOption(id: id, key: 'password', value: '');
+    return Future(() => js.context.callMethod('setByName', ['forget']));
   }
 
   Future<bool> mainPeerHasPassword({required String id, dynamic hint}) {
@@ -1067,7 +1054,7 @@ class RustdeskImpl {
         () => js.context.callMethod('getByName', ['option', 'last_remote_id']));
   }
 
-  Future<void> mainGetSoftwareUpdateUrl({dynamic hint}) {
+  Future<String> mainGetSoftwareUpdateUrl({dynamic hint}) {
     throw UnimplementedError();
   }
 
@@ -1192,8 +1179,7 @@ class RustdeskImpl {
 
   Future<void> sessionSendNote(
       {required UuidValue sessionId, required String note, dynamic hint}) {
-    return Future(
-        () => js.context.callMethod('setByName', ['send_note', note]));
+    throw UnimplementedError();
   }
 
   Future<String> sessionAlternativeCodecs(
@@ -1624,7 +1610,6 @@ class RustdeskImpl {
 
   String mainSupportedInputSource({dynamic hint}) {
     return jsonEncode([
-      ['Input source 1', 'input_source_1_tip'],
       ['Input source 2', 'input_source_2_tip']
     ]);
   }
@@ -1685,8 +1670,7 @@ class RustdeskImpl {
 
   bool sessionGetEnableTrustedDevices(
       {required UuidValue sessionId, dynamic hint}) {
-    return js.context.callMethod('getByName', ['enable_trusted_devices']) ==
-        'Y';
+    throw UnimplementedError();
   }
 
   Future<String> mainGetTrustedDevices({dynamic hint}) {
